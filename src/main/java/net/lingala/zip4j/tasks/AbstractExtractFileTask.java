@@ -97,21 +97,22 @@ public abstract class AbstractExtractFileTask<T> extends AsyncZipTask<T> {
   private void createSymLink(ZipInputStream zipInputStream, FileHeader fileHeader, File outputFile,
                              ProgressMonitor progressMonitor) throws IOException {
 
-    String symLinkPath = new String(readCompleteEntry(zipInputStream, fileHeader, progressMonitor));
+    // Temporarily disabled; see https://stackoverflow.com/questions/65724478/can-i-skip-symbolic-links-when-extracting-a-zipfile-in-windows-using-zip4j
+    //String symLinkPath = new String(readCompleteEntry(zipInputStream, fileHeader, progressMonitor));
 
-    if (!outputFile.getParentFile().exists() && !outputFile.getParentFile().mkdirs()) {
-      throw new ZipException("Could not create parent directories");
-    }
+    //if (!outputFile.getParentFile().exists() && !outputFile.getParentFile().mkdirs()) {
+    //  throw new ZipException("Could not create parent directories");
+    //}
 
-    try {
-      Path linkTarget = Paths.get(symLinkPath);
-      Files.createSymbolicLink(outputFile.toPath(), linkTarget);
-      UnzipUtil.applyFileAttributes(fileHeader, outputFile);
-    } catch (NoSuchMethodError error) {
-      try (OutputStream outputStream = new FileOutputStream(outputFile)) {
-        outputStream.write(symLinkPath.getBytes());
-      }
-    }
+    //try {
+    //  Path linkTarget = Paths.get(symLinkPath);
+    //  Files.createSymbolicLink(outputFile.toPath(), linkTarget);
+    //  UnzipUtil.applyFileAttributes(fileHeader, outputFile);
+    //} catch (NoSuchMethodError error) {
+    //  try (OutputStream outputStream = new FileOutputStream(outputFile)) {
+    //    outputStream.write(symLinkPath.getBytes());
+    //  }
+    //}
   }
 
   private byte[] readCompleteEntry(ZipInputStream zipInputStream, FileHeader fileHeader,
